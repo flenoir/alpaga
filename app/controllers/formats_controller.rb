@@ -1,6 +1,9 @@
 class FormatsController < ApplicationController
   before_action :set_format, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, :except => [:index, :show]
+  before_action :authorized_user, only: [:edit, :update, :destroy]
   respond_to :html, :json
+
 
 
   # GET /formats
@@ -16,17 +19,22 @@ class FormatsController < ApplicationController
 
   # GET /formats/new
   def new
-    @format = Format.new
+    @format = current_user.formats.build
   end
 
   # GET /formats/1/edit
   def edit
   end
 
+  def authorized_user
+  @format = current_user.formats.find_by(id: params[:id])
+  redirect_to formats_path, notice: "Not authorized to edit this format" if @format.nil?
+end
+
   # POST /formats
   # POST /formats.json
   def create
-    @format = Format.new(format_params)
+    @format = current_user.formats.build(format_params)
 
     respond_to do |format|
       if @format.save

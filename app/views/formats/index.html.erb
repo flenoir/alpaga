@@ -1,0 +1,33 @@
+<h1>Listing formats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Usage</th>
+      <th>Compression</th>
+      <th>Resolution</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @formats.each do |format| %>
+      <tr>
+        <td><%= format.name %></td>
+        <td><%= format.usage %></td>
+        <td><%= format.compression %></td>
+        <td><%= format.resolution %></td>
+        <td><%= link_to 'Show', format %></td>
+        <td><%= link_to 'Edit', edit_format_path(format) %></td>
+        <td><%= link_to 'Destroy', format, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Format', new_format_path %>
